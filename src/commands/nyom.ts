@@ -5,7 +5,7 @@ import { MessageAttachment, MessageEmbed } from "discord.js";
 
 function nyom(message: Message, args: string[]) {
   const search = args[0];
-  const basePath = join(__dirname, "../assets/nemo");
+  const basePath = join(__dirname, "../../public/nemo");
   const images = readdirSync(basePath).filter((name: string) => {
     if (!search) return true;
     const regex = new RegExp(search, "gi");
