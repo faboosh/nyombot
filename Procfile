@@ -1,1 +1,1 @@
-web: node build/bot.js
+worker: node build/bot.js
