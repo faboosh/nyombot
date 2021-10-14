@@ -4,9 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node build/bot.js",
+    "start": "node build/backend/bot/bot.js",
     "postinstall": "tsc",
-    "watch-node": "nodemon build/bot.js",
+    "build": "./build.sh",
+    "watch-node": "nodemon",
+    "fe-build": "rollup -c",
+    "fe-dev": "rollup -c -w",
     "watch-ts": "tsc -w",
     "deploy": "git add . && git commit -m Heroku && git push heroku master"
   },
@@ -14,12 +17,26 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "canvas": "^2.8.0",
+    "dataimageattachment": "^1.1.2",
     "discord.js": "^13.2.0",
-    "dotenv": "^10.0.0"
+    "dotenv": "^10.0.0",
+    "node-fetch": "^2.6.5",
+    "sharp": "^0.29.1",
+    "sirv-cli": "^1.0.0"
   },
   "devDependencies": {
+    "@rollup/plugin-commonjs": "^17.0.0",
+    "@rollup/plugin-node-resolve": "^11.0.0",
     "@types/express": "^4.17.13",
     "@types/node": "^16.10.3",
+    "@types/node-fetch": "^3.0.3",
+    "rollup": "^2.3.4",
+    "rollup-plugin-css-only": "^3.1.0",
+    "rollup-plugin-livereload": "^2.0.0",
+    "rollup-plugin-svelte": "^7.0.0",
+    "rollup-plugin-terser": "^7.0.0",
+    "svelte": "^3.0.0",
     "ts-node": "^10.2.1",
     "typescript": "^4.4.3"
   },

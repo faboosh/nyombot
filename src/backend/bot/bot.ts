@@ -7,7 +7,11 @@ const c = new CommandHandler(bot);
 
 commands.forEach(
   ([command, callback]: [command: string, callback: Function]) => {
-    c.on(command, callback);
+    const wrappedCallback = (...args) => {
+      console.log(`${command} ran with args:`, ...args);
+      callback(...args);
+    };
+    c.on(command, wrappedCallback);
   }
 );
 
