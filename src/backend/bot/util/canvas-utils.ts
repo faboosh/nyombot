@@ -25,6 +25,7 @@ import { attachmentFromDataURI } from "./file-utils";
 export class MemeCanvas {
   width: number;
   height: number;
+  lineHeight: number;
   canvas: Canvas;
   ctx: NodeCanvasRenderingContext2D;
   message: Message;
@@ -32,13 +33,19 @@ export class MemeCanvas {
   constructor(width: number, height: number, message: Message) {
     this.width = width;
     this.height = height;
+    this.lineHeight = 4;
     this.canvas = createCanvasLib(width, height);
     this.ctx = this.canvas.getContext("2d");
     this.message = message;
   }
 
   setFont(font: string = "Impact", sizePercent: number = 10) {
+    this.lineHeight = sizePercent;
     this.ctx.font = `${this.percH(sizePercent)}px ${font}`;
+  }
+
+  setTextAlign(align: CanvasTextAlign) {
+    this.ctx.textAlign = align;
   }
 
   percW(percent: number) {
@@ -51,6 +58,33 @@ export class MemeCanvas {
 
   drawText(text: string, x: number, y: number) {
     this.ctx.fillText(text, this.percW(x), this.percH(y));
+  }
+
+  drawTextBox(text: string, x: number, y: number, w: number) {
+    const words = text.split(" ");
+
+    const lines: string[] = [];
+    let line = 0;
+
+    words.forEach((word) => {
+      if (typeof lines[line] !== "string") lines[line] = "";
+      let lineText = lines[line] ?? "";
+      if (this.ctx.measureText(`${lineText} ${word}`).width > this.percW(w))
+        line++;
+      lineText = lines[line] ?? "";
+      lines[line] = lines[line] ? `${lines[line]} ${word}` : `${word}`;
+    });
+
+    const yOffset = (lines.length / 2) * this.lineHeight;
+
+    console.log({
+      lines,
+      yOffset,
+    });
+
+    lines.forEach((line, i) => {
+      this.drawText(line, x, y - yOffset + this.lineHeight * i);
+    });
   }
 
   async drawAvatar(
